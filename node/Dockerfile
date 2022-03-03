@@ -1,8 +1,7 @@
 FROM node:15
 
-WORKDIR /usr/src/app
-
-COPY . .
+COPY src /src
+WORKDIR /src
 
 EXPOSE 3000
 
