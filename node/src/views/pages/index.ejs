@@ -1,0 +1,14 @@
+<html>
+    <header>
+        <title>FullCycle 3.0 - NodeJs and Nginx challenge </title>
+    </header>
+    <body>
+        <h1><%= title %></h1>
+        List of people fetched from persistence:
+        <ul>
+            <% people.forEach(function(person) { %>
+                <li><%= person %></li>
+            <% }); %>
+        </ul>
+    </body>
+</html>

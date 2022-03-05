@@ -18,10 +18,11 @@ services:
     build: ./node
     container_name: app
     entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s docker-entrypoint.sh node index.js
-    environment:
-      PERSISTENCE_HOST: ${PERSISTENCE_HOST}
-      PERSISTENCE_USER: ${PERSISTENCE_USER}
-      PERSISTENCE_PASSWORD: ${PERSISTENCE_PASSWORD}
+    environment: 
+      PERSISTENCE_HOST: $PERSISTENCE_HOST
+      PERSISTENCE_DATABASE: $PERSISTENCE_DATABASE
+      PERSISTENCE_USER: $PERSISTENCE_USER
+      PERSISTENCE_PASSWORD: $PERSISTENCE_PASSWORD
 
   nginx:
     build: ./nginx
