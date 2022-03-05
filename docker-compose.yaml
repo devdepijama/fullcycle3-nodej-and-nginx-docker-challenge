@@ -4,6 +4,7 @@ services:
 
   mysql:
     build: ./mysql
+    container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
@@ -13,14 +14,17 @@ services:
       MYSQL_PASSWORD: $PERSISTENCE_PASSWORD
       MYSQL_ROOT_PASSWORD: $PERSISTENCE_ROOT_PASSWORD
 
-  nginx:
-    build: ./nginx
-    ports: 
-      - "8080:8080"
-
   app:
     build: ./node
+    container_name: app
+    entrypoint: dockerize -wait tcp://mysql:3306 -timeout 20s docker-entrypoint.sh node index.js
     environment:
       PERSISTENCE_HOST: ${PERSISTENCE_HOST}
       PERSISTENCE_USER: ${PERSISTENCE_USER}
       PERSISTENCE_PASSWORD: ${PERSISTENCE_PASSWORD}
+
+  nginx:
+    build: ./nginx
+    entrypoint: dockerize -wait tcp://app:3000 -timeout 20s /docker-entrypoint.sh nginx -g "daemon off;"
+    ports: 
+      - "8080:8080"
